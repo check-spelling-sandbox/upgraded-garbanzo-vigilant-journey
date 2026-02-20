@@ -1,0 +1,29 @@
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          : test
+          cat > a.json <<'EOF'
+          {
+            "problemMatcher": [
+              {
+                "owner": "test",
+                "severity": "warning",
+                "pattern": [
+                  {
+                    "regex": "(Something) at .*? line (\\d+)",
+                    "message": 1,
+                    "line": 2
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+
+          echo "::add-matcher::$(pwd)/a.json"
+          echo "Something at file line 5"
